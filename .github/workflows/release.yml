@@ -1,0 +1,119 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Release version (e.g., v1.0.0)'
+        required: true
+        type: string
+
+env:
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+jobs:
+  release:
+    runs-on: ${{ matrix.os }}
+    
+    strategy:
+      matrix:
+        include:
+          - os: macos-latest
+            platform: mac
+          - os: windows-latest
+            platform: win
+          - os: ubuntu-latest
+            platform: linux
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20.x'
+        cache: 'yarn'
+        
+    - name: Install dependencies
+      run: yarn install --frozen-lockfile
+      
+    - name: Run tests
+      run: |
+        yarn type-check
+        yarn test
+        
+    - name: Build application
+      run: yarn build
+      
+    # Platform-specific builds
+    - name: Build for macOS
+      if: matrix.platform == 'mac'
+      run: yarn dist:mac
+      env:
+        CSC_IDENTITY_AUTO_DISCOVERY: false
+        
+    - name: Build for Windows
+      if: matrix.platform == 'win'
+      run: yarn dist:win
+      
+    - name: Build for Linux
+      if: matrix.platform == 'linux'
+      run: yarn dist:linux
+      
+    # Upload artifacts to GitHub Release
+    - name: Upload Release Assets
+      uses: softprops/action-gh-release@v1
+      if: startsWith(github.ref, 'refs/tags/')
+      with:
+        files: |
+          release/*.dmg
+          release/*.exe
+          release/*.AppImage
+          release/*.deb
+          release/*.blockmap
+          release/latest*.yml
+        draft: true
+        prerelease: ${{ contains(github.ref, 'beta') || contains(github.ref, 'alpha') || contains(github.ref, 'rc') }}
+        generate_release_notes: true
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        
+    - name: Upload build artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: release-${{ matrix.platform }}
+        path: release/
+        retention-days: 30
+
+  # Auto-updater files
+  publish-updates:
+    needs: release
+    runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/')
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Download all artifacts
+      uses: actions/download-artifact@v4
+      with:
+        path: artifacts/
+        
+    - name: Prepare update files
+      run: |
+        mkdir -p updates
+        find artifacts/ -name "latest*.yml" -exec cp {} updates/ \;
+        find artifacts/ -name "*.blockmap" -exec cp {} updates/ \;
+        
+    - name: Upload update metadata
+      uses: softprops/action-gh-release@v1
+      with:
+        files: updates/*
+        tag_name: ${{ github.ref_name }}
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
