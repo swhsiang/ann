@@ -14,6 +14,10 @@ const createWindow = (): void => {
       preload: path.join(__dirname, "preload.js"),
     },
     show: false,
+    transparent: true,
+    frame: false,
+    backgroundColor: undefined,
+    titleBarStyle: "hidden",
   });
 
   if (isDev) {
@@ -21,7 +25,7 @@ const createWindow = (): void => {
     mainWindow.loadURL("http://localhost:5173").catch((error) => {
       console.error("Failed to load development server:", error);
       console.log("Please start the development server with: npm run dev");
-      
+
       // Show an error page instead of crashing
       mainWindow?.loadURL(`data:text/html;charset=utf-8,
         <html>
@@ -37,7 +41,7 @@ const createWindow = (): void => {
         </html>
       `);
     });
-    mainWindow.webContents.openDevTools();
+    // mainWindow.webContents.openDevTools();
   } else {
     mainWindow.loadFile(path.join(__dirname, "../renderer/index.html"));
   }
@@ -74,4 +78,21 @@ ipcMain.handle("get-app-version", () => {
 
 ipcMain.handle("get-platform", () => {
   return process.platform;
+});
+
+// Window control handlers
+ipcMain.handle("window-close", () => {
+  mainWindow?.close();
+});
+
+ipcMain.handle("window-minimize", () => {
+  mainWindow?.minimize();
+});
+
+ipcMain.handle("window-maximize", () => {
+  if (mainWindow?.isMaximized()) {
+    mainWindow.unmaximize();
+  } else {
+    mainWindow?.maximize();
+  }
 });
