@@ -17,14 +17,20 @@
       ],
       "env": {},
       "disabled": false,
-      "autoApprove": []
+      "autoApprove": [
+        "resolve-library-id",
+        "get-library-docs",
+        "get-library-docs"
+      ]
     },
     "sequential-thinking": {
       "command": "npx",
       "args": [
         "-y",
         "@modelcontextprotocol/server-sequential-thinking"
-      ]
+      ],
+      "disabled": false,
+      "autoApprove": []
     }
   }
 }
