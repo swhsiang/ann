@@ -16,12 +16,12 @@ An Electron desktop application for creating and interacting with virtual charac
 ### Prerequisites
 
 - Node.js (v18 or higher)
-- npm
+- yarn
 
 ### Installation
 
 ```bash
-npm install
+yarn install
 ```
 
 ### Development
@@ -29,7 +29,7 @@ npm install
 Start the development server:
 
 ```bash
-npm run dev
+yarn dev
 ```
 
 This will start both the Vite development server and Electron in development mode.
@@ -39,19 +39,19 @@ This will start both the Vite development server and Electron in development mod
 Run unit tests:
 
 ```bash
-npm test
+yarn test
 ```
 
 Run tests in watch mode:
 
 ```bash
-npm run test:watch
+yarn test:watch
 ```
 
 Run E2E tests:
 
 ```bash
-npm run test:e2e
+yarn test:e2e
 ```
 
 ### Building
@@ -59,13 +59,13 @@ npm run test:e2e
 Build for production:
 
 ```bash
-npm run build
+yarn build
 ```
 
 Start the production build:
 
 ```bash
-npm run start:prod
+yarn start:prod
 ```
 
 ### Type Checking
@@ -73,7 +73,7 @@ npm run start:prod
 Run TypeScript type checking:
 
 ```bash
-npm run type-check
+yarn type-check
 ```
 
 ## Architecture
@@ -115,12 +115,12 @@ tests/
 
 ## Available Scripts
 
-- `npm run dev` - Start development server
-- `npm run build` - Build for production
-- `npm test` - Run unit tests
-- `npm run test:e2e` - Run E2E tests
-- `npm run type-check` - Run TypeScript type checking
-- `npm run lint` - Run ESLint
+- `yarn dev` - Start development server
+- `yarn build` - Build for production
+- `yarn test` - Run unit tests
+- `yarn test:e2e` - Run E2E tests
+- `yarn type-check` - Run TypeScript type checking
+- `yarn lint` - Run ESLint
 
 ## Technologies Used
 
