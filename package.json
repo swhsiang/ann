@@ -11,7 +11,7 @@
     "build:vite": "vite build",
     "build:electron": "tsc -p tsconfig.main.json",
     "start": "electron .",
-    "start:prod": "npm run build && electron .",
+    "start:prod": "npm run build && cross-env NODE_ENV=production electron .",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:e2e": "playwright test",
@@ -42,6 +42,7 @@
     "@vitejs/plugin-react": "^4.1.1",
     "autoprefixer": "^10.4.16",
     "concurrently": "^8.2.2",
+    "cross-env": "^7.0.3",
     "electron": "^27.3.11",
     "eslint": "^8.54.0",
     "eslint-plugin-react": "^7.33.2",
@@ -57,13 +58,15 @@
     "wait-on": "^7.2.0"
   },
   "dependencies": {
-    "@radix-ui/react-slot": "^1.0.2",
-    "class-variance-authority": "^0.7.0",
-    "clsx": "^2.0.0",
+    "@radix-ui/react-dialog": "^1.1.14",
+    "@radix-ui/react-label": "^2.1.7",
+    "@radix-ui/react-slot": "^1.2.3",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
     "lucide-react": "^0.294.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "tailwind-merge": "^2.0.0",
+    "tailwind-merge": "^2.6.0",
     "tailwindcss-animate": "^1.0.7"
   }
 }

@@ -1,11 +1,8 @@
-export const isDev = process.env.NODE_ENV === "development" || process.env.DEBUG_PROD === "true";
+/**
+ * Utility functions for Electron main process
+ */
 
-export const getAssetPath = (...paths: string[]): string => {
-  const RESOURCES_PATH = isDev
-    ? path.join(__dirname, "../assets")
-    : path.join(process.resourcesPath, "assets");
-
-  return path.join(RESOURCES_PATH, ...paths);
-};
-
-import path from "path";
+/**
+ * Check if the application is running in development mode
+ */
+export const isDev = process.env.NODE_ENV === 'development' || !process.env.NODE_ENV;

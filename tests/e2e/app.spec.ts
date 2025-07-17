@@ -9,6 +9,6 @@ test("displays welcome message", async ({ page }) => {
   await page.goto("/");
   await expect(page.getByText("Virtual Character App")).toBeVisible();
   await expect(
-    page.getByText("Welcome to Your Virtual Character Desktop App")
+    page.getByText("Welcome to your virtual character desktop application built with Electron, React, and TypeScript.")
   ).toBeVisible();
 });

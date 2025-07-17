@@ -17,7 +17,26 @@ const createWindow = (): void => {
   });
 
   if (isDev) {
-    mainWindow.loadURL("http://localhost:5173");
+    // In development, try to load from Vite dev server
+    mainWindow.loadURL("http://localhost:5173").catch((error) => {
+      console.error("Failed to load development server:", error);
+      console.log("Please start the development server with: npm run dev");
+      
+      // Show an error page instead of crashing
+      mainWindow?.loadURL(`data:text/html;charset=utf-8,
+        <html>
+          <head><title>Development Server Not Running</title></head>
+          <body style="font-family: Arial, sans-serif; padding: 40px; text-align: center;">
+            <h1>Development Server Not Running</h1>
+            <p>The Vite development server is not running on port 5173.</p>
+            <p>Please start the development server with:</p>
+            <code style="background: #f0f0f0; padding: 10px; display: block; margin: 20px 0;">npm run dev</code>
+            <p>Or use the production build with:</p>
+            <code style="background: #f0f0f0; padding: 10px; display: block; margin: 20px 0;">npm run start:prod</code>
+          </body>
+        </html>
+      `);
+    });
     mainWindow.webContents.openDevTools();
   } else {
     mainWindow.loadFile(path.join(__dirname, "../renderer/index.html"));

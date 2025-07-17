@@ -30,7 +30,10 @@
         "@modelcontextprotocol/server-sequential-thinking"
       ],
       "disabled": false,
-      "autoApprove": []
+      "autoApprove": [
+        "sequentialthinking",
+        "sequentialthinking"
+      ]
     }
   }
 }

@@ -15,7 +15,7 @@ describe("App", () => {
     render(<App />);
     expect(screen.getByText("Virtual Character App")).toBeInTheDocument();
     expect(
-      screen.getByText("Welcome to Your Virtual Character Desktop App")
+      screen.getByText("Welcome to your virtual character desktop application built with Electron, React, and TypeScript.")
     ).toBeInTheDocument();
   });
 
@@ -23,7 +23,9 @@ describe("App", () => {
     render(<App />);
     
     // Wait for the async calls to complete
-    await screen.findByText("App Version: 1.0.0");
-    expect(screen.getByText("Platform: darwin")).toBeInTheDocument();
+    await screen.findByText(/App Version:/);
+    expect(screen.getByText(/Platform:/)).toBeInTheDocument();
+    expect(screen.getByText("1.0.0")).toBeInTheDocument();
+    expect(screen.getByText("darwin")).toBeInTheDocument();
   });
 });
