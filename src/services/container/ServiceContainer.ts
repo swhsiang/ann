@@ -12,10 +12,10 @@ export interface ServiceContainer {
 }
 
 export class ServiceContainerImpl implements ServiceContainer {
-  private services = new Map<string, any>();
-  private singletons = new Map<string, () => any>();
-  private transients = new Map<string, () => any>();
-  private singletonInstances = new Map<string, any>();
+  private services = new Map<string, unknown>();
+  private singletons = new Map<string, () => unknown>();
+  private transients = new Map<string, () => unknown>();
+  private singletonInstances = new Map<string, unknown>();
 
   register<T>(token: string, implementation: T): void {
     this.services.set(token, implementation);

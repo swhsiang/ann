@@ -1,5 +1,10 @@
 import { container, ServiceTokens } from './container/ServiceContainer';
 
+// Placeholder interfaces for services that will be implemented later
+interface PlaceholderService {
+  readonly _placeholder: true;
+}
+
 /**
  * Service Registry for configuring and initializing all application services
  * This follows the TDD principle of dependency injection for testability
@@ -51,95 +56,95 @@ export class ServiceRegistry {
 
   private static registerCoreServices(): void {
     // Event Bus - Central communication hub
-    container.registerSingleton(ServiceTokens.EVENT_BUS, () => {
+    container.registerSingleton(ServiceTokens.EVENT_BUS, (): PlaceholderService => {
       // Will be implemented in task 3
-      return {} as any; // Placeholder
+      return { _placeholder: true }; // Placeholder
     });
 
     // Error Handler - Global error management
-    container.registerSingleton(ServiceTokens.ERROR_HANDLER, () => {
+    container.registerSingleton(ServiceTokens.ERROR_HANDLER, (): PlaceholderService => {
       // Will be implemented in task 10
-      return {} as any; // Placeholder
+      return { _placeholder: true }; // Placeholder
     });
   }
 
   private static registerSensorServices(): void {
     // Microphone Sensor
-    container.registerSingleton(ServiceTokens.MICROPHONE_SENSOR, () => {
+    container.registerSingleton(ServiceTokens.MICROPHONE_SENSOR, (): PlaceholderService => {
       // Will be implemented in task 3
-      return {} as any; // Placeholder
+      return { _placeholder: true }; // Placeholder
     });
 
     // Text Input Sensor
-    container.registerSingleton(ServiceTokens.TEXT_INPUT_SENSOR, () => {
+    container.registerSingleton(ServiceTokens.TEXT_INPUT_SENSOR, (): PlaceholderService => {
       // Will be implemented in task 3
-      return {} as any; // Placeholder
+      return { _placeholder: true }; // Placeholder
     });
 
     // File Upload Sensor
-    container.registerSingleton(ServiceTokens.FILE_UPLOAD_SENSOR, () => {
+    container.registerSingleton(ServiceTokens.FILE_UPLOAD_SENSOR, (): PlaceholderService => {
       // Will be implemented in task 3
-      return {} as any; // Placeholder
+      return { _placeholder: true }; // Placeholder
     });
   }
 
   private static registerAIServices(): void {
     // OpenAI Service
-    container.registerSingleton(ServiceTokens.OPENAI_SERVICE, () => {
+    container.registerSingleton(ServiceTokens.OPENAI_SERVICE, (): PlaceholderService => {
       // Will be implemented in task 4
-      return {} as any; // Placeholder
+      return { _placeholder: true }; // Placeholder
     });
 
     // Emotion Processor
-    container.registerSingleton(ServiceTokens.EMOTION_PROCESSOR, () => {
+    container.registerSingleton(ServiceTokens.EMOTION_PROCESSOR, (): PlaceholderService => {
       // Will be implemented in task 4
-      return {} as any; // Placeholder
+      return { _placeholder: true }; // Placeholder
     });
 
     // Intent Processor
-    container.registerSingleton(ServiceTokens.INTENT_PROCESSOR, () => {
+    container.registerSingleton(ServiceTokens.INTENT_PROCESSOR, (): PlaceholderService => {
       // Will be implemented in task 4
-      return {} as any; // Placeholder
+      return { _placeholder: true }; // Placeholder
     });
   }
 
   private static registerBusinessServices(): void {
     // File Validator
-    container.registerSingleton(ServiceTokens.FILE_VALIDATOR, () => {
+    container.registerSingleton(ServiceTokens.FILE_VALIDATOR, (): PlaceholderService => {
       // Will be implemented in task 2
-      return {} as any; // Placeholder
+      return { _placeholder: true }; // Placeholder
     });
 
     // File Storage Service
-    container.registerSingleton(ServiceTokens.FILE_STORAGE_SERVICE, () => {
+    container.registerSingleton(ServiceTokens.FILE_STORAGE_SERVICE, (): PlaceholderService => {
       // Will be implemented in task 2
-      return {} as any; // Placeholder
+      return { _placeholder: true }; // Placeholder
     });
 
     // Character Generation Service
-    container.registerSingleton(ServiceTokens.CHARACTER_GENERATION_SERVICE, () => {
+    container.registerSingleton(ServiceTokens.CHARACTER_GENERATION_SERVICE, (): PlaceholderService => {
       // Will be implemented in task 5
-      return {} as any; // Placeholder
+      return { _placeholder: true }; // Placeholder
     });
 
     // Character Service
-    container.registerSingleton(ServiceTokens.CHARACTER_SERVICE, () => {
+    container.registerSingleton(ServiceTokens.CHARACTER_SERVICE, (): PlaceholderService => {
       // Will be implemented in task 5
-      return {} as any; // Placeholder
+      return { _placeholder: true }; // Placeholder
     });
 
     // Conversation Service
-    container.registerSingleton(ServiceTokens.CONVERSATION_SERVICE, () => {
+    container.registerSingleton(ServiceTokens.CONVERSATION_SERVICE, (): PlaceholderService => {
       // Will be implemented in task 7
-      return {} as any; // Placeholder
+      return { _placeholder: true }; // Placeholder
     });
   }
 
   private static registerStorageServices(): void {
     // Character Repository
-    container.registerSingleton(ServiceTokens.CHARACTER_REPOSITORY, () => {
+    container.registerSingleton(ServiceTokens.CHARACTER_REPOSITORY, (): PlaceholderService => {
       // Will be implemented in task 8
-      return {} as any; // Placeholder
+      return { _placeholder: true }; // Placeholder
     });
   }
 }
