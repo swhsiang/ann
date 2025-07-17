@@ -9,16 +9,32 @@
 ### Recommended File Structure
 
 ```
-src/
-├── index.css                 # ONLY global styles, Tailwind directives, CSS variables
-├── components/
-│   ├── ui/                   # shadcn/ui components (pure Tailwind utilities)
-│   │   ├── button.tsx
-│   │   ├── card.tsx
-│   │   └── ...
-│   └── custom/               # Your custom components (pure Tailwind utilities)
-│       ├── Header.tsx
-│       └── Sidebar.tsx
+project-root/
+├── public/                   # Static assets (Vite convention)
+│   ├── video/               # Video assets for virtual characters
+│   └── favicon.ico          # Other static assets
+├── src/
+│   ├── index.css            # ONLY global styles, Tailwind directives, CSS variables
+│   ├── main.tsx             # React entry point
+│   ├── App.tsx              # Main app component
+│   ├── components/
+│   │   ├── ui/              # shadcn/ui components (pure Tailwind utilities)
+│   │   │   ├── button.tsx
+│   │   │   ├── card.tsx
+│   │   │   └── ...
+│   │   └── custom/          # Your custom components (pure Tailwind utilities)
+│   │       ├── Header.tsx
+│   │       └── Sidebar.tsx
+│   ├── lib/                 # Utility functions, cn() helper
+│   ├── services/            # API services, business logic
+│   └── types/               # TypeScript type definitions
+├── electron/                # Electron main process files
+│   ├── main.ts              # Electron main process
+│   ├── preload.ts           # Preload scripts
+│   └── utils.ts             # Electron utilities
+└── dist/                    # Build output
+    ├── renderer/            # React app build (from public/ + src/)
+    └── main/                # Electron main process build
 ```
 
 ### Modern Styling Approach
