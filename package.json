@@ -1,5 +1,5 @@
 {
-  "name": "virtual-character-app",
+  "name": "ann-ai",
   "version": "1.0.0",
   "description": "An Electron desktop application for creating and interacting with virtual characters",
   "main": "dist/main/main.js",
@@ -31,7 +31,7 @@
     "virtual-character",
     "ai"
   ],
-  "author": "Virtual Character App Team",
+  "author": "Ann AI Team",
   "license": "MIT",
   "devDependencies": {
     "@playwright/test": "^1.40.0",
@@ -77,7 +77,7 @@
   },
   "build": {
     "appId": "com.virtualcharacter.app",
-    "productName": "Virtual Character App",
+    "productName": "Ann AI",
     "directories": {
       "output": "release",
       "buildResources": "build"

@@ -21,7 +21,7 @@ function App() {
         <CardHeader>
           <CardTitle className="text-2xl">Virtual Character App</CardTitle>
           <CardDescription>
-            Welcome to your virtual character desktop application built with Electron, React, and TypeScript.
+            Welcome to your Ann AI desktop application built with Electron, React, and TypeScript.
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
