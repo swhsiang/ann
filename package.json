@@ -1,6 +1,6 @@
 {
   "name": "ann-ai",
-  "version": "1.0.0",
+  "version": "0.0.4",
   "description": "An Electron desktop application for creating and interacting with virtual characters",
   "main": "dist/main/main.js",
   "scripts": {
@@ -40,7 +40,7 @@
     "virtual-character",
     "ai"
   ],
-  "author": "Ann AI Team",
+  "author": "Ann AI Team <swh@hsiang.io>",
   "license": "MIT",
   "devDependencies": {
     "@playwright/test": "^1.40.0",
@@ -103,7 +103,7 @@
     },
     "publish": {
       "provider": "github",
-      "owner": "wshih",
+      "owner": "swhsiang",
       "repo": "ann"
     },
     "mac": {
@@ -116,11 +116,15 @@
       "target": [
         {
           "target": "dmg",
-          "arch": ["universal"]
+          "arch": [
+            "universal"
+          ]
         },
         {
           "target": "zip",
-          "arch": ["universal"]
+          "arch": [
+            "universal"
+          ]
         }
       ]
     },
@@ -147,14 +151,22 @@
     },
     "win": {
       "icon": "build/icon.ico",
+      "publish": [
+        "github"
+      ],
       "target": [
         {
           "target": "nsis",
-          "arch": ["x64", "ia32"]
+          "arch": [
+            "x64",
+            "ia32"
+          ]
         },
         {
           "target": "portable",
-          "arch": ["x64"]
+          "arch": [
+            "x64"
+          ]
         }
       ]
     },
@@ -175,15 +187,21 @@
       "target": [
         {
           "target": "AppImage",
-          "arch": ["x64"]
+          "arch": [
+            "x64"
+          ]
         },
         {
           "target": "deb",
-          "arch": ["x64"]
+          "arch": [
+            "x64"
+          ]
         },
         {
           "target": "rpm",
-          "arch": ["x64"]
+          "arch": [
+            "x64"
+          ]
         }
       ],
       "category": "Office"

@@ -36,7 +36,7 @@ extraMetadata:
 # Publishing configuration
 publish:
   provider: github
-  owner: wshih
+  owner: swhsiang
   repo: ann
   releaseType: release
 
