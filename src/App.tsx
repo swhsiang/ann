@@ -27,7 +27,7 @@ function App() {
 
       {/* Main Content */}
       <div className="flex-1 flex items-center justify-center p-4">
-        <Card className="max-w-md mx-auto">
+        <Card variant="glass" className="max-w-md mx-auto">
           <CardHeader>
             <CardTitle className="text-2xl">Virtual Character App</CardTitle>
             <CardDescription>
