@@ -39,7 +39,7 @@ const SimpleVideoPlayer: React.FC<SimpleVideoPlayerProps> = ({ emotion }) => {
   };
 
   return (
-    <div className="relative w-full h-96 bg-black rounded-lg overflow-hidden">
+    <div className="relative w-full md:h-full bg-black rounded-lg overflow-hidden">
       {/* Loading overlay */}
       {isLoading && (
         <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 z-10">
