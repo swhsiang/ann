@@ -1,0 +1,126 @@
+# electron-builder configuration
+# This file provides additional configuration options for electron-builder
+# It complements the configuration in package.json
+
+appId: com.annai.app
+productName: Ann AI
+copyright: Copyright © 2025 Ann AI Team
+compression: normal
+
+directories:
+  output: release
+  buildResources: build
+
+files:
+  - dist/**/*
+  - node_modules/**/*
+  - package.json
+  - "!**/*.{iml,o,hprof,orig,pyc,pyo,rbc,swp,csproj,sln,xproj}"
+  - "!.editorconfig"
+  - "!**/._*"
+  - "!**/{.DS_Store,.git,.hg,.svn,CVS,RCS,SCCS,.gitignore,.gitattributes}"
+  - "!**/{__pycache__,thumbs.db,.flowconfig,.idea,.vs,.nyc_output}"
+  - "!**/{appveyor.yml,.travis.yml,circle.yml}"
+  - "!**/{npm-debug.log,yarn.lock,.yarn-integrity,.yarn-metadata.json}"
+  - "!**/node_modules/*/{CHANGELOG.md,README.md,README,readme.md,readme}"
+  - "!**/node_modules/*/{test,__tests__,tests,powered-test,example,examples}"
+  - "!**/node_modules/*.d.ts"
+  - "!**/node_modules/.bin"
+  - "!**/*.{iml,o,hprof,orig,pyc,pyo,rbc,swp,csproj,sln,xproj}"
+  - "!**/build/create-icons.js"
+  - "!**/build/*.svg"
+
+extraMetadata:
+  main: dist/main/main.js
+
+# Publishing configuration
+publish:
+  provider: github
+  owner: swhsiang
+  repo: ann
+  releaseType: release
+
+# macOS configuration
+mac:
+  category: public.app-category.productivity
+  icon: build/icon.icns
+  hardenedRuntime: true
+  gatekeeperAssess: false
+  entitlements: build/entitlements.mac.plist
+  entitlementsInherit: build/entitlements.mac.plist
+  extendInfo:
+    NSCameraUsageDescription: "Ann AI needs camera access for video character interactions."
+    NSMicrophoneUsageDescription: "Ann AI needs microphone access for voice interactions."
+    NSAppleEventsUsageDescription: "Ann AI uses Apple Events for system integration."
+  target:
+    - target: dmg
+      arch: [universal]
+    - target: zip
+      arch: [universal]
+
+# DMG configuration
+dmg:
+  background: build/dmg-background.png
+  iconSize: 100
+  contents:
+    - x: 255
+      y: 85
+      type: file
+    - x: 253
+      y: 325
+      type: link
+      path: /Applications
+  window:
+    width: 500
+    height: 500
+
+# Windows configuration
+win:
+  icon: build/icon.ico
+  target:
+    - target: nsis
+      arch: [x64, ia32]
+    - target: portable
+      arch: [x64]
+
+# NSIS installer configuration
+nsis:
+  oneClick: false
+  allowToChangeInstallationDirectory: true
+  allowElevation: true
+  createDesktopShortcut: true
+  createStartMenuShortcut: true
+  deleteAppDataOnUninstall: true
+  installerIcon: build/icon.ico
+  uninstallerIcon: build/icon.ico
+  installerHeaderIcon: build/icon.ico
+  include: build/installer.nsh
+  guid: "12345678-1234-1234-1234-123456789012"
+
+# Linux configuration
+linux:
+  icon: build/icon.png
+  target:
+    - target: AppImage
+      arch: [x64]
+    - target: deb
+      arch: [x64]
+    - target: rpm
+      arch: [x64]
+  category: Office
+
+# Snap configuration (optional)
+snap:
+  summary: Ann AI - Virtual Character Desktop Application
+  description: |
+    Ann AI is a desktop application for creating and interacting with virtual characters.
+    Features include video character display, AI-powered conversations, and more.
+  grade: stable
+  confinement: strict
+  plugs:
+    - default
+    - camera
+    - audio-record
+    - audio-playback
+    - network
+    - home

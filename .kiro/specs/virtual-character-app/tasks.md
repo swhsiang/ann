@@ -42,12 +42,14 @@
   - Implement fallback mechanisms with extensive error scenario testing
   - _Requirements: 3.1, 3.4, 18.1, 18.2, 18.3, 18.5_
 
-- [ ] 6. Build 3D character display system using TDD
-  - Write tests for 3D rendering components with mocked Three.js dependencies
-  - Create testable React Three Fiber components with isolated rendering logic
-  - Implement character animation system with unit tests for each animation type
-  - Build performance monitoring tests to ensure 30+ FPS requirement
-  - Test user interaction controls (rotation, zoom, pan) with comprehensive event handling tests
+- [x] 6. Build HTML5 video-based 3D character display system using TDD
+  - Write tests for HTML5 video container components with mocked video element dependencies
+  - Create testable VideoCharacterDisplay React component with isolated video playback logic
+  - Implement character video state management with unit tests for play/pause/seek operations
+  - Build video loading and error handling tests with comprehensive fallback scenarios
+  - Test video performance monitoring to ensure smooth playback and memory management
+  - Create video selection service with tests for different character animations (dancing, chilling, etc.)
+  - Implement responsive video container with tests for different screen sizes and aspect ratios
   - _Requirements: 3.1.1, 3.1.2, 3.1.5, 6.3, 4.5_
 
 - [ ] 7. Implement conversation system with TDD approach

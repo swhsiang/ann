@@ -2,6 +2,21 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Video Character Display Styles */
+.video-character-container video.active {
+  opacity: 1;
+  z-index: 1;
+}
+
+.video-character-container video:not(.active) {
+  opacity: 0;
+  z-index: 0;
+}
+
+.video-character-container video {
+  transition: opacity 0.5s ease-in-out;
+}
+
 @layer base {
   :root {
     --background: transparent;

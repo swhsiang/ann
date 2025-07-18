@@ -1,6 +1,6 @@
 {
   "name": "ann-ai",
-  "version": "1.0.0",
+  "version": "0.0.4",
   "description": "An Electron desktop application for creating and interacting with virtual characters",
   "main": "dist/main/main.js",
   "scripts": {
@@ -22,7 +22,17 @@
     "dist:dir": "yarn build && electron-builder --dir",
     "dist:win": "yarn build && electron-builder --win",
     "dist:mac": "yarn build && electron-builder --mac",
-    "dist:linux": "yarn build && electron-builder --linux"
+    "dist:linux": "yarn build && electron-builder --linux",
+    "dist:all": "yarn build && electron-builder -mwl",
+    "dist:publish": "yarn build && electron-builder --publish=always",
+    "dist:draft": "yarn build && electron-builder --publish=onTagOrDraft",
+    "pack": "yarn build && electron-builder --dir",
+    "pack:mac": "yarn build && electron-builder --mac --dir",
+    "pack:win": "yarn build && electron-builder --win --dir",
+    "pack:linux": "yarn build && electron-builder --linux --dir",
+    "prepare-build": "node scripts/prepare-build.js",
+    "postinstall": "yarn prepare-build",
+    "release": "electron-builder"
   },
   "keywords": [
     "electron",
@@ -31,7 +41,7 @@
     "virtual-character",
     "ai"
   ],
-  "author": "Ann AI Team",
+  "author": "Ann AI Team <swh@hsiang.io>",
   "license": "MIT",
   "devDependencies": {
     "@playwright/test": "^1.40.0",
@@ -76,8 +86,10 @@
     "tailwindcss-animate": "^1.0.7"
   },
   "build": {
-    "appId": "com.virtualcharacter.app",
+    "appId": "com.annai.app",
     "productName": "Ann AI",
+    "copyright": "Copyright © 2025 Ann AI Team",
+    "compression": "normal",
     "directories": {
       "output": "release",
       "buildResources": "build"
@@ -90,19 +102,59 @@
     "extraMetadata": {
       "main": "dist/main/main.js"
     },
+    "publish": {
+      "provider": "github",
+      "owner": "swhsiang",
+      "repo": "ann"
+    },
     "mac": {
       "category": "public.app-category.productivity",
+      "icon": "build/icon.icns",
+      "hardenedRuntime": true,
+      "gatekeeperAssess": false,
+      "entitlements": "build/entitlements.mac.plist",
+      "entitlementsInherit": "build/entitlements.mac.plist",
       "target": [
         {
           "target": "dmg",
           "arch": [
-            "x64",
-            "arm64"
+            "universal"
+          ]
+        },
+        {
+          "target": "zip",
+          "arch": [
+            "universal"
           ]
         }
       ]
     },
+    "dmg": {
+      "background": "build/dmg-background.png",
+      "iconSize": 100,
+      "contents": [
+        {
+          "x": 255,
+          "y": 85,
+          "type": "file"
+        },
+        {
+          "x": 253,
+          "y": 325,
+          "type": "link",
+          "path": "/Applications"
+        }
+      ],
+      "window": {
+        "width": 500,
+        "height": 500
+      }
+    },
     "win": {
+      "icon": "build/icon.ico",
+      "publish": [
+        "github"
+      ],
       "target": [
         {
           "target": "nsis",
@@ -110,10 +162,29 @@
             "x64",
             "ia32"
           ]
+        },
+        {
+          "target": "portable",
+          "arch": [
+            "x64"
+          ]
         }
       ]
     },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "allowElevation": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "deleteAppDataOnUninstall": true,
+      "installerIcon": "build/icon.ico",
+      "uninstallerIcon": "build/icon.ico",
+      "installerHeaderIcon": "build/icon.ico",
+      "include": "build/installer.nsh"
+    },
     "linux": {
+      "icon": "build/icon.png",
       "target": [
         {
           "target": "AppImage",
@@ -126,15 +197,15 @@
           "arch": [
             "x64"
           ]
+        },
+        {
+          "target": "rpm",
+          "arch": [
+            "x64"
+          ]
         }
       ],
       "category": "Office"
-    },
-    "nsis": {
-      "oneClick": false,
-      "allowToChangeInstallationDirectory": true,
-      "createDesktopShortcut": true,
-      "createStartMenuShortcut": true
     }
   }
 }
