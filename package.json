@@ -31,7 +31,8 @@
     "pack:win": "yarn build && electron-builder --win --dir",
     "pack:linux": "yarn build && electron-builder --linux --dir",
     "prepare-build": "node scripts/prepare-build.js",
-    "postinstall": "yarn prepare-build"
+    "postinstall": "yarn prepare-build",
+    "release": "electron-builder"
   },
   "keywords": [
     "electron",
