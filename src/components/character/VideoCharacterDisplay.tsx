@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useState, useCallback } from 'react';
-import { VideoMetrics } from '../../services/character/VideoCharacterService';
+import { VideoMetrics, VideoCharacterServiceImpl } from '../../services/character/VideoCharacterService';
 
 export interface VideoCharacterDisplayProps {
   characterId: string;
@@ -46,7 +46,7 @@ export const VideoCharacterDisplay: React.FC<VideoCharacterDisplayProps> = ({
     isTransitioning: false
   });
 
-  const [videoService] = useState(() => new (require('../../services/character/VideoCharacterService').VideoCharacterServiceImpl)());
+  const [videoService] = useState(() => new VideoCharacterServiceImpl());
   const loadStartTime = useRef<number>(0);
 
   // Initialize video refs
@@ -77,7 +77,13 @@ export const VideoCharacterDisplay: React.FC<VideoCharacterDisplayProps> = ({
 
     const interval = setInterval(() => {
       // Estimate memory usage based on video elements
-      const usage = (performance as any).memory?.usedJSHeapSize || 0;
+      // Note: performance.memory is a Chrome-specific API
+      const performanceWithMemory = performance as Performance & {
+        memory?: {
+          usedJSHeapSize: number;
+        };
+      };
+      const usage = performanceWithMemory.memory?.usedJSHeapSize || 0;
       onMemoryUsage(usage);
     }, 1000);
 
