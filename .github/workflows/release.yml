@@ -19,14 +19,18 @@ jobs:
     runs-on: ${{ matrix.os }}
     
     strategy:
+      fail-fast: false
       matrix:
         include:
           - os: macos-latest
             platform: mac
+            cache_key: macos
           - os: windows-latest
             platform: win
+            cache_key: windows
           - os: ubuntu-latest
             platform: linux
+            cache_key: linux
     
     steps:
     - name: Checkout code
@@ -37,6 +41,29 @@ jobs:
       with:
         node-version: '20.x'
         cache: 'yarn'
+        
+    - name: Get yarn cache directory path
+      id: yarn-cache-dir-path
+      run: echo "dir=$(yarn cache dir)" >> $GITHUB_OUTPUT
+      
+    - name: Cache yarn dependencies
+      uses: actions/cache@v4
+      with:
+        path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+        key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-yarn-
+        
+    - name: Cache Electron
+      uses: actions/cache@v4
+      with:
+        path: |
+          ~/.cache/electron
+          ~/Library/Caches/electron
+          %LOCALAPPDATA%\electron\Cache
+        key: ${{ runner.os }}-electron-${{ hashFiles('**/package.json') }}
+        restore-keys: |
+          ${{ runner.os }}-electron-
         
     - name: Install dependencies
       run: yarn install --frozen-lockfile
@@ -55,30 +82,43 @@ jobs:
       run: yarn dist:mac
       env:
         CSC_IDENTITY_AUTO_DISCOVERY: false
+        DEBUG: electron-builder
         
     - name: Build for Windows
       if: matrix.platform == 'win'
       run: yarn dist:win
-      
+      env:
+        DEBUG: electron-builder
+        
     - name: Build for Linux
       if: matrix.platform == 'linux'
       run: yarn dist:linux
+      env:
+        DEBUG: electron-builder
       
+    - name: List build outputs
+      run: |
+        echo "Build outputs:"
+        ls -la release/ || echo "No release directory found"
+        
     # Upload artifacts to GitHub Release
     - name: Upload Release Assets
-      uses: softprops/action-gh-release@v1
+      uses: softprops/action-gh-release@v2
       if: startsWith(github.ref, 'refs/tags/')
       with:
         files: |
           release/*.dmg
+          release/*.zip
           release/*.exe
           release/*.AppImage
           release/*.deb
+          release/*.rpm
           release/*.blockmap
           release/latest*.yml
         draft: true
         prerelease: ${{ contains(github.ref, 'beta') || contains(github.ref, 'alpha') || contains(github.ref, 'rc') }}
         generate_release_notes: true
+        fail_on_unmatched_files: false
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         
@@ -88,6 +128,7 @@ jobs:
         name: release-${{ matrix.platform }}
         path: release/
         retention-days: 30
+        if-no-files-found: warn
 
   # Auto-updater files
   publish-updates:
@@ -107,13 +148,15 @@ jobs:
     - name: Prepare update files
       run: |
         mkdir -p updates
-        find artifacts/ -name "latest*.yml" -exec cp {} updates/ \;
-        find artifacts/ -name "*.blockmap" -exec cp {} updates/ \;
+        find artifacts/ -name "latest*.yml" -exec cp {} updates/ \; || echo "No update files found"
+        find artifacts/ -name "*.blockmap" -exec cp {} updates/ \; || echo "No blockmap files found"
+        ls -la updates/ || echo "No updates directory"
         
     - name: Upload update metadata
-      uses: softprops/action-gh-release@v1
+      uses: softprops/action-gh-release@v2
       with:
         files: updates/*
         tag_name: ${{ github.ref_name }}
+        fail_on_unmatched_files: false
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

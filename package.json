@@ -22,7 +22,16 @@
     "dist:dir": "yarn build && electron-builder --dir",
     "dist:win": "yarn build && electron-builder --win",
     "dist:mac": "yarn build && electron-builder --mac",
-    "dist:linux": "yarn build && electron-builder --linux"
+    "dist:linux": "yarn build && electron-builder --linux",
+    "dist:all": "yarn build && electron-builder -mwl",
+    "dist:publish": "yarn build && electron-builder --publish=always",
+    "dist:draft": "yarn build && electron-builder --publish=onTagOrDraft",
+    "pack": "yarn build && electron-builder --dir",
+    "pack:mac": "yarn build && electron-builder --mac --dir",
+    "pack:win": "yarn build && electron-builder --win --dir",
+    "pack:linux": "yarn build && electron-builder --linux --dir",
+    "prepare-build": "node scripts/prepare-build.js",
+    "postinstall": "yarn prepare-build"
   },
   "keywords": [
     "electron",
@@ -76,8 +85,10 @@
     "tailwindcss-animate": "^1.0.7"
   },
   "build": {
-    "appId": "com.virtualcharacter.app",
+    "appId": "com.annai.app",
     "productName": "Ann AI",
+    "copyright": "Copyright © 2025 Ann AI Team",
+    "compression": "normal",
     "directories": {
       "output": "release",
       "buildResources": "build"
@@ -90,51 +101,92 @@
     "extraMetadata": {
       "main": "dist/main/main.js"
     },
+    "publish": {
+      "provider": "github",
+      "owner": "wshih",
+      "repo": "ann"
+    },
     "mac": {
       "category": "public.app-category.productivity",
+      "icon": "build/icon.icns",
+      "hardenedRuntime": true,
+      "gatekeeperAssess": false,
+      "entitlements": "build/entitlements.mac.plist",
+      "entitlementsInherit": "build/entitlements.mac.plist",
       "target": [
         {
           "target": "dmg",
-          "arch": [
-            "x64",
-            "arm64"
-          ]
+          "arch": ["universal"]
+        },
+        {
+          "target": "zip",
+          "arch": ["universal"]
         }
       ]
     },
+    "dmg": {
+      "background": "build/dmg-background.png",
+      "iconSize": 100,
+      "contents": [
+        {
+          "x": 255,
+          "y": 85,
+          "type": "file"
+        },
+        {
+          "x": 253,
+          "y": 325,
+          "type": "link",
+          "path": "/Applications"
+        }
+      ],
+      "window": {
+        "width": 500,
+        "height": 500
+      }
+    },
     "win": {
+      "icon": "build/icon.ico",
       "target": [
         {
           "target": "nsis",
-          "arch": [
-            "x64",
-            "ia32"
-          ]
-        }
-      ]
-    },
-    "linux": {
-      "target": [
-        {
-          "target": "AppImage",
-          "arch": [
-            "x64"
-          ]
+          "arch": ["x64", "ia32"]
         },
         {
-          "target": "deb",
-          "arch": [
-            "x64"
-          ]
+          "target": "portable",
+          "arch": ["x64"]
         }
-      ],
-      "category": "Office"
+      ]
     },
     "nsis": {
       "oneClick": false,
       "allowToChangeInstallationDirectory": true,
+      "allowElevation": true,
       "createDesktopShortcut": true,
-      "createStartMenuShortcut": true
+      "createStartMenuShortcut": true,
+      "deleteAppDataOnUninstall": true,
+      "installerIcon": "build/icon.ico",
+      "uninstallerIcon": "build/icon.ico",
+      "installerHeaderIcon": "build/icon.ico",
+      "include": "build/installer.nsh"
+    },
+    "linux": {
+      "icon": "build/icon.png",
+      "target": [
+        {
+          "target": "AppImage",
+          "arch": ["x64"]
+        },
+        {
+          "target": "deb",
+          "arch": ["x64"]
+        },
+        {
+          "target": "rpm",
+          "arch": ["x64"]
+        }
+      ],
+      "category": "Office"
     }
   }
 }
