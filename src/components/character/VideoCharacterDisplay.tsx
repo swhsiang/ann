@@ -142,7 +142,7 @@ export const VideoCharacterDisplay: React.FC<VideoCharacterDisplayProps> = ({
   }, [autoPlay, isPlaying, trackPerformance]);
 
   // Handle video error
-  const handleVideoError = useCallback((error: Event) => {
+  const handleVideoError = useCallback((error: React.SyntheticEvent<HTMLVideoElement, Event>) => {
     const errorMessage = 'Failed to load character video';
     setVideoState(prev => ({
       ...prev,
