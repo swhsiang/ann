@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useState, useCallback } from 'react';
-import { VideoCharacterService, VideoMetrics } from '../../services/character/VideoCharacterService';
+import { VideoMetrics } from '../../services/character/VideoCharacterService';
 
 export interface VideoCharacterDisplayProps {
   characterId: string;
@@ -142,7 +142,7 @@ export const VideoCharacterDisplay: React.FC<VideoCharacterDisplayProps> = ({
   }, [autoPlay, isPlaying, trackPerformance]);
 
   // Handle video error
-  const handleVideoError = useCallback((error: React.SyntheticEvent<HTMLVideoElement, Event>) => {
+  const handleVideoError = useCallback((_error: React.SyntheticEvent<HTMLVideoElement, Event>) => {
     const errorMessage = 'Failed to load character video';
     setVideoState(prev => ({
       ...prev,

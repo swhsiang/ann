@@ -1,21 +1,23 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import "./index.css";
 import { Button } from "@/components/ui/button";
 
 import SimpleVideoPlayer from "@/components/SimpleVideoPlayer";
 
 function App() {
-  const [appVersion, setAppVersion] = useState<string>("");
-  const [platform, setPlatform] = useState<string>("");
+  // Commented out unused state variables
+  // const [appVersion, setAppVersion] = useState<string>("");
+  // const [platform, setPlatform] = useState<string>("");
   const [emotion, setEmotion] = useState<string>('neutral');
 
-  useEffect(() => {
-    // Check if we're running in Electron
-    if (window.electronAPI) {
-      window.electronAPI.getAppVersion().then(setAppVersion);
-      window.electronAPI.getPlatform().then(setPlatform);
-    }
-  }, []);
+  // Commented out useEffect that was using the removed state variables
+  // useEffect(() => {
+  //   // Check if we're running in Electron
+  //   if (window.electronAPI) {
+  //     window.electronAPI.getAppVersion().then(setAppVersion);
+  //     window.electronAPI.getPlatform().then(setPlatform);
+  //   }
+  // }, []);
 
   return (
     <div className="min-h-screen flex flex-col" style={{ background: 'transparent' }}>

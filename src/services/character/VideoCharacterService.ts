@@ -34,7 +34,7 @@ export class VideoCharacterServiceImpl implements VideoCharacterService {
     ]
   };
 
-  getVideoPath(characterId: string, emotion?: string): string {
+  getVideoPath(_characterId: string, emotion?: string): string {
     if (emotion) {
       return this.getVideoByEmotion(emotion);
     }
@@ -74,7 +74,7 @@ export class VideoCharacterServiceImpl implements VideoCharacterService {
     });
   }
 
-  getAvailableVideos(characterId: string): string[] {
+  getAvailableVideos(_characterId: string): string[] {
     return [
       ...this.emotionMappings.positive,
       ...this.emotionMappings.negative,

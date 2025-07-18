@@ -1,39 +1,38 @@
-import React from "react";
-import { render, screen, waitFor, fireEvent } from "@testing-library/react";
+import { render, screen, fireEvent } from "@testing-library/react";
 import App from "./App";
 
-// Mock the VideoCharacterDisplay component
-jest.mock("@/components/character/VideoCharacterDisplay", () => ({
-  VideoCharacterDisplay: ({ characterId, emotion, onPerformanceMetrics }: any) => {
+// Mock the SimpleVideoPlayer component
+jest.mock("@/components/SimpleVideoPlayer", () => {
+  return function MockSimpleVideoPlayer({ emotion }: { emotion: string }) {
     return (
-      <div data-testid="video-character-display">
-        <div data-testid="character-id">{characterId}</div>
+      <div data-testid="simple-video-player">
         <div data-testid="current-emotion">{emotion}</div>
-        {onPerformanceMetrics && (
-          <button 
-            data-testid="trigger-metrics"
-            onClick={() => onPerformanceMetrics({
-              loadTime: 150,
-              videoSize: 1920 * 1080,
-              playbackQuality: 'high'
-            })}
+        <div className="relative w-full md:h-full bg-black rounded-lg overflow-hidden">
+          <video
+            data-testid="video-element"
+            className="w-full h-full object-cover"
+            autoPlay
+            muted
+            loop
+            playsInline
           >
-            Trigger Metrics
-          </button>
-        )}
+            <source src="/video/test.mp4" type="video/mp4" />
+          </video>
+          <div className="absolute bottom-4 left-4 bg-black bg-opacity-50 text-white px-3 py-1 rounded text-sm">
+            Emotion: {emotion} | Video: test.mp4
+          </div>
+        </div>
       </div>
     );
-  }
-}));
-
-// Mock the electron API
-Object.defineProperty(window, "electronAPI", {
-    value: {
-        getAppVersion: jest.fn().mockResolvedValue("1.0.0"),
-        getPlatform: jest.fn().mockResolvedValue("darwin"),
-    },
-    writable: true,
+  };
 });
+// Object.defineProperty(window, "electronAPI", {
+//     value: {
+//         getAppVersion: jest.fn().mockResolvedValue("1.0.0"),
+//         getPlatform: jest.fn().mockResolvedValue("darwin"),
+//     },
+//     writable: true,
+// });
 
 describe("App", () => {
     beforeEach(() => {
@@ -76,22 +75,18 @@ describe("App", () => {
             expect(neutralButton).not.toHaveClass("variant-outline");
         });
 
-        test("clicking emotion buttons changes active emotion", async () => {
+        test("clicking emotion buttons changes active emotion", () => {
             render(<App />);
             
             const happyButton = screen.getByText("Happy");
             fireEvent.click(happyButton);
 
-            await waitFor(() => {
-                expect(screen.getByTestId("current-emotion")).toHaveTextContent("positive");
-            });
+            expect(screen.getByTestId("current-emotion")).toHaveTextContent("positive");
 
             const angryButton = screen.getByText("Angry");
             fireEvent.click(angryButton);
 
-            await waitFor(() => {
-                expect(screen.getByTestId("current-emotion")).toHaveTextContent("negative");
-            });
+            expect(screen.getByTestId("current-emotion")).toHaveTextContent("negative");
         });
 
         test("emotion buttons update visual state when clicked", () => {
@@ -110,84 +105,36 @@ describe("App", () => {
         });
     });
 
-    describe("Video Character Integration", () => {
-        test("renders VideoCharacterDisplay component", () => {
+    describe("Video Player Integration", () => {
+        test("renders SimpleVideoPlayer component", () => {
             render(<App />);
             
-            expect(screen.getByTestId("video-character-display")).toBeInTheDocument();
+            expect(screen.getByTestId("simple-video-player")).toBeInTheDocument();
         });
 
-        test("passes correct props to VideoCharacterDisplay", () => {
+        test("passes correct emotion prop to SimpleVideoPlayer", () => {
             render(<App />);
             
-            expect(screen.getByTestId("character-id")).toHaveTextContent("ann-ai");
             expect(screen.getByTestId("current-emotion")).toHaveTextContent("neutral");
         });
 
-        test("updates emotion prop when emotion state changes", async () => {
+        test("updates emotion prop when emotion state changes", () => {
             render(<App />);
             
             const happyButton = screen.getByText("Happy");
             fireEvent.click(happyButton);
 
-            await waitFor(() => {
-                expect(screen.getByTestId("current-emotion")).toHaveTextContent("positive");
-            });
+            expect(screen.getByTestId("current-emotion")).toHaveTextContent("positive");
         });
-    });
 
-    describe("Performance Metrics Display", () => {
-        test("displays performance metrics when triggered", async () => {
+        test("renders video element", () => {
             render(<App />);
             
-            // Trigger the performance metrics
-            const triggerButton = screen.getByTestId("trigger-metrics");
-            fireEvent.click(triggerButton);
-
-            await waitFor(() => {
-                expect(screen.getByText("Performance Metrics")).toBeInTheDocument();
-            });
-
-            expect(screen.getByText("Load Time: 150ms")).toBeInTheDocument();
-            expect(screen.getByText("Quality: high")).toBeInTheDocument();
-            expect(screen.getByText(/Video Size: [\d,]+ pixels/)).toBeInTheDocument();
-        });
-
-        test("does not display performance metrics initially", () => {
-            render(<App />);
-            
-            expect(screen.queryByText("Performance Metrics")).not.toBeInTheDocument();
+            expect(screen.getByTestId("video-element")).toBeInTheDocument();
         });
     });
 
-    describe("App Information Display", () => {
-        test("displays app information when running in Electron", async () => {
-            render(<App />);
-
-            // Wait for the async calls to complete
-            await waitFor(() => {
-                expect(screen.getByText(/App Version:/)).toBeInTheDocument();
-            });
-
-            expect(screen.getByText(/Platform:/)).toBeInTheDocument();
-            expect(screen.getByText("1.0.0")).toBeInTheDocument();
-            expect(screen.getByText("darwin")).toBeInTheDocument();
-        });
-
-        test("does not display app info without electron API", () => {
-            // Temporarily remove the electron API
-            const originalElectronAPI = window.electronAPI;
-            delete (window as typeof window & { electronAPI?: unknown }).electronAPI;
-
-            render(<App />);
-
-            expect(screen.queryByText(/App Version:/)).not.toBeInTheDocument();
-            expect(screen.queryByText(/Platform:/)).not.toBeInTheDocument();
-
-            // Restore the electron API
-            window.electronAPI = originalElectronAPI;
-        });
-    });
+    // Note: Performance metrics and app info features are currently commented out in the App component
 
     describe("Layout and Styling", () => {
         test("has transparent background", () => {
