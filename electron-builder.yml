@@ -27,6 +27,8 @@ files:
   - "!**/node_modules/*.d.ts"
   - "!**/node_modules/.bin"
   - "!**/*.{iml,o,hprof,orig,pyc,pyo,rbc,swp,csproj,sln,xproj}"
+  - "!**/build/create-icons.js"
+  - "!**/build/*.svg"
 
 extraMetadata:
   main: dist/main/main.js
