@@ -75,7 +75,6 @@ dmg:
 # Windows configuration
 win:
   icon: build/icon.ico
-  publisherName: Ann AI Team
   target:
     - target: nsis
       arch: [x64, ia32]
@@ -107,10 +106,6 @@ linux:
     - target: rpm
       arch: [x64]
   category: Office
-  desktop:
-    StartupNotify: "false"
-    Encoding: UTF-8
-    MimeType: x-scheme-handler/ann-ai
 
 # Snap configuration (optional)
 snap:

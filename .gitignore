@@ -15,7 +15,7 @@ dist-ssr
 *.tsbuildinfo
 next-env.d.ts
 # production
-/build
+# /build  # Commented out - we need build/ directory for electron-builder assets
 
 # Editor directories and files
 .vscode/*
