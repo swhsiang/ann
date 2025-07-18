@@ -99,6 +99,7 @@ jobs:
         DEBUG: electron-builder
       
     - name: List build outputs
+      shell: bash
       run: |
         echo "Build outputs:"
         ls -la release/ || echo "No release directory found"
